@@ -13,7 +13,7 @@ allLetters.forEach((item)=>{
 	lettersOfCategories.appendChild(newElement);
 })
 
-
+//display all the categories in the select tag
 function getAllCategories(){
 	const flattenedCategories=allLogos.reduce((acc,item)=>{
 //		return console.log(item['category'])
@@ -36,6 +36,8 @@ function getAllCategories(){
 		const theHTML=`<option value="${item}">${item}</option>`
 		industrySelectElement.insertAdjacentHTML('beforeend',theHTML);
 	})
+    
+    
 }
 
 getAllCategories()
@@ -44,10 +46,12 @@ getAllCategories()
 function displayAllImages(){
 	logosDisplay.innerHTML="";
 	allLogos.map((item)=>{
-		const theFileName= item.filename;
+        const {filename,title,category}=item;
+        const newCategory=category.join(',').replace(/,/g," / ")
 		const theHTML=`<div class="logos-box">
-					<img src="./logos/${theFileName}/${theFileName}.png"/>
-				
+					<img src="./logos/${filename}/${filename}.png"/>
+				    <p class="logo-name">${title}</p>
+                    <p class="logo-category">${newCategory}</p>
 				</div>`;
 		logosDisplay.insertAdjacentHTML('beforeend',theHTML);
 	})
@@ -71,12 +75,14 @@ function pickCategory(e){
 	}
 	
 	allLogos.map((item)=>{
-		const {category,filename}=item;
+		const {category,filename,title}=item;
+         const newCategory=category.join(',').replace(/,/g," / ")
 		
 		if(category.includes(pickedValue)){
 			const theHTML=`<div class="logos-box">
 						<img src="./logos/${filename}/${filename}.png"/>
-
+                        <p class="logo-name">${title}</p>
+                    <p class="logo-category">${newCategory}</p>
 					</div>`;
 			logosDisplay.insertAdjacentHTML('beforeend',theHTML);
 		}
@@ -93,12 +99,14 @@ function selectByLetter(e){
 	logosDisplay.innerHTML="";
 	
 	allLogos.map((item)=>{
-		const {title,filename}=item;
+		const {title,filename,category}=item;
+         const newCategory=category.join(',').replace(/,/g," / ")
 		
 		if(title.startsWith(pickedValue)){
 			const theHTML=`<div class="logos-box">
 						<img src="./logos/${filename}/${filename}.png"/>
-
+                        <p class="logo-name">${title}</p>
+                    <p class="logo-category">${newCategory}</p>
 					</div>`;
 			logosDisplay.insertAdjacentHTML('beforeend',theHTML);
 		}
