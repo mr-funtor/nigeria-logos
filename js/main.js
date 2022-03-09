@@ -20,13 +20,6 @@ function getAllCategories(){
 		return acc.concat(item['category'])
 	},[])
 
-//	allCategories=[];
-
-//	flattenedCategories.forEach((item)=>{
-//		if(!allCategories.includes(item)){
-//			allCategories.push(item);
-//		}
-//	})
     
     //make the items in the array not duplicate itself
     let allCategories=[...new Set(flattenedCategories)].sort();
@@ -43,7 +36,7 @@ function getAllCategories(){
 getAllCategories()
 
 //DISPLAYS ALL THE LOGOS 
-function displayAllImages(){
+function displayAllImages(allLogos){
 	logosDisplay.innerHTML="";
 	allLogos.map((item)=>{
         const {filename,title,category}=item;
@@ -58,7 +51,13 @@ function displayAllImages(){
 }
 
 
-displayAllImages()
+displayAllImages(allLogos)
+
+
+//PICK CATEGORIS
+industrySelectElement.addEventListener('change',pickCategory);
+
+
 
 
 //PICKING LOGOS IN A CATEGORY
@@ -67,50 +66,29 @@ industrySelectElement.addEventListener('change',pickCategory);
 function pickCategory(e){
 	let pickedValue=e.currentTarget.value;
 	
-	logosDisplay.innerHTML="";
 	
 	//When All Categories is chosen
 	if(pickedValue==='all'){
-		return displayAllImages();
+		return displayAllImages(allLogos);
 	}
+    
+    let presCategory=allLogos.filter(item=>item.category.includes(pickedValue))
 	
-	allLogos.map((item)=>{
-		const {category,filename,title}=item;
-         const newCategory=category.join(',').replace(/,/g," / ")
-		
-		if(category.includes(pickedValue)){
-			const theHTML=`<div class="logos-box">
-						<img src="./logos/${filename}/${filename}.png"/>
-                        <p class="logo-name">${title}</p>
-                    <p class="logo-category">${newCategory}</p>
-					</div>`;
-			logosDisplay.insertAdjacentHTML('beforeend',theHTML);
-		}
-	})
-	
-	console.log('picked', e.currentTarget.value)
+     displayAllImages(presCategory);
+   
 }
 
 
-
+//PICKING LOGOS BY THE LETTER
 function selectByLetter(e){
 	let pickedValue=e.currentTarget.name;
 	
-	logosDisplay.innerHTML="";
-	
-	allLogos.map((item)=>{
-		const {title,filename,category}=item;
-         const newCategory=category.join(',').replace(/,/g," / ")
-		
-		if(title.startsWith(pickedValue)){
-			const theHTML=`<div class="logos-box">
-						<img src="./logos/${filename}/${filename}.png"/>
-                        <p class="logo-name">${title}</p>
-                    <p class="logo-category">${newCategory}</p>
-					</div>`;
-			logosDisplay.insertAdjacentHTML('beforeend',theHTML);
-		}
-	})
+	//filter the json to pick the logos by Alphabet
+    let presCategory=allLogos.filter(item=>item.title.startsWith(pickedValue))
+    
+    displayAllImages(presCategory);
+    
+
 }
 
 
