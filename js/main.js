@@ -15,24 +15,23 @@ allLetters.forEach((item)=>{
 
 
 function getAllCategories(){
-	let allCategories=[];
+	const flattenedCategories=allLogos.reduce((acc,item)=>{
+//		return console.log(item['category'])
+		return acc.concat(item['category'])
+	},[])
 
-	allLogos.map((item)=>{
-		allCategories.push(item['category'])
-	})
+//	allCategories=[];
 
-	const flattenedCategories=allCategories.reduce((acc,item)=>{
-		return acc.concat(item)
-	})
-
-	allCategories=[];
-
-	flattenedCategories.forEach((item)=>{
-		if(!allCategories.includes(item)){
-			allCategories.push(item);
-		}
-	})
-	
+//	flattenedCategories.forEach((item)=>{
+//		if(!allCategories.includes(item)){
+//			allCategories.push(item);
+//		}
+//	})
+    
+    //make the items in the array not duplicate itself
+    let allCategories=[...new Set(flattenedCategories)].sort();
+    
+    
 	allCategories.forEach((item)=>{
 		const theHTML=`<option value="${item}">${item}</option>`
 		industrySelectElement.insertAdjacentHTML('beforeend',theHTML);
